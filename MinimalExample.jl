@@ -88,14 +88,14 @@ end
 
 ## this works, but the code looks hacky. Can't we do any better?
 function simulate_hack(rhs1,rhs2, x0, timespan,tspan_fault)
-    problem2 = ODEProblem{true}(rhs2,x0,(first(timespan),tspan_fault[2]), 0.9)
+    problem2 = ODEProblem{true}(rhs2,x0,(first(timespan),tspan_fault[2]))
     fault_integrator = init(problem2, Rodas4(autodiff=false))
 
     reinit!(fault_integrator, x0, t0=tspan_fault[1], tf=tspan_fault[2], erase_sol=false)
     savevalues!(fault_integrator)
     solve!(fault_integrator)
 
-    problem1 = ODEProblem{true}(rhs1, fault_integrator.u, (tspan_fault[2], last(timespan)), 1.0)
+    problem1 = ODEProblem{true}(rhs1, fault_integrator.u, (tspan_fault[2], last(timespan)))
     integrator = init(problem1, Rodas4(autodiff=false))
 
     integrator.sol = fault_integrator.sol
@@ -118,8 +118,7 @@ function simulate_switch_rhs(rhs1, rhs2, x0, timespan,tspan_fault)
     step!(integrator, tspan_fault[1], true)
 
     ## update integrator with error
-    ode_f2 = ODEFunction(rhs2)
-    integrator.f = ode_f2
+    integrator.f = ODEFunction(rhs2)
     u_modified!(integrator, true)
 
     step!(integrator, tspan_fault[2], true)
@@ -146,26 +145,24 @@ end
 
 
 function run_sim_params()
-    rhs_stable = NetworkEq(1)
+    rhs_stable = NetworkEq(P=1)
     operationpoint = find_operationpoint(rhs_stable)
     tspan_sim =   (0.,1.)
     tspan_fault = (0.1,1)
-    disturbed_node=2
-    sol1 = simulate_with_param(rhs_stable,
+
+    sol = simulate_with_param(rhs_stable,
         operationpoint,
         tspan_sim,
         tspan_fault)
-    plot(sol1, vars=[3,6])
+    plot(sol, vars=[3,6])
 end
 
 function run_sim_hack()
-
-    rhs_stable = NetworkEq(1)
-    rhs_fault = NetworkEq(0.9)
+    rhs_stable = NetworkEq(P=1)
+    rhs_fault = NetworkEq(P=0.9)
     operationpoint = find_operationpoint(rhs_stable)
     tspan_sim =   (0.,1.)
     tspan_fault = (0.1,1)
-    disturbed_node=2
 
     sol = simulate_hack(rhs_stable,rhs_fault,
         operationpoint,
@@ -175,13 +172,11 @@ function run_sim_hack()
 end
 
 function run_sim_switch_rhs()
-
-    rhs_stable = NetworkEq(1)
-    rhs_fault = NetworkEq(0.9)
+    rhs_stable = NetworkEq(P=1)
+    rhs_fault = NetworkEq(P=0.9)
     operationpoint = find_operationpoint(rhs_stable)
     tspan_sim =   (0.,1.)
     tspan_fault = (0.1,1)
-    disturbed_node=2
 
     sol = simulate_switch_rhs(rhs_stable,rhs_fault,
         operationpoint,
