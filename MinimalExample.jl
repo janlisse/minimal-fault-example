@@ -154,7 +154,6 @@ function run_sim_params()
         operationpoint,
         tspan_sim,
         tspan_fault)
-    plot(sol, vars=[3,6])
 end
 
 function run_sim_hack()
@@ -168,7 +167,6 @@ function run_sim_hack()
         operationpoint,
         tspan_sim,
         tspan_fault)
-    plot(sol, vars=[3,6])
 end
 
 function run_sim_switch_rhs()
@@ -182,12 +180,20 @@ function run_sim_switch_rhs()
         operationpoint,
         tspan_sim,
         tspan_fault)
-    plot(sol, vars=[3,6])
 end
 
 #-
-run_sim_hack()
+sol1 = run_sim_hack()
+plot(sol1, vars=[3,6])
 #-
-run_sim_params()
+sol2 = run_sim_params()
+plot(sol2, vars=[3,6])
 #-
-run_sim_switch_rhs()
+sol3 = run_sim_switch_rhs()
+plot(sol3, vars=[3,6])
+
+#-
+using BenchmarkTools
+@benchmark run_sim_hack()
+@benchmark run_sim_params()
+@benchmark run_sim_switch_rhs()
