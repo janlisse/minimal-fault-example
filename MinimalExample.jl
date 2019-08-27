@@ -59,7 +59,7 @@ function (neq::NetworkEq)(dx, x, p ,t)
     return nothing
 end
 
-# this works
+## this works
 function simulate_with_param(rhs, x0, timespan,tspan_fault)
 
     problem = ODEProblem{true}(rhs, x0, timespan, 1.0)
@@ -67,18 +67,20 @@ function simulate_with_param(rhs, x0, timespan,tspan_fault)
 
     step!(integrator, tspan_fault[1], true)
 
-    integrator.p = 0.9 # update integrator with error
+    ## update integrator with error
+    integrator.p = 0.9
 
     step!(integrator, tspan_fault[2], true)
 
-    integrator.p = 1.0 # update integrator, clear error
+    ## update integrator, clear error
+    integrator.p = 1.0
 
     solve!(integrator)
 
     return integrator.sol
 end
 
-# this works, but the code looks hacky. Can't we do any better?
+## this works, but the code looks hacky. Can't we do any better?
 function simulate_hack(rhs1,rhs2, x0, timespan,tspan_fault)
     problem2 = ODEProblem{true}(rhs2,x0,(first(timespan),tspan_fault[2]), 0.9)
     fault_integrator = init(problem2, Rodas4(autodiff=false))
@@ -109,13 +111,15 @@ function simulate_switch_rhs(rhs1, rhs2, x0, timespan,tspan_fault)
 
     step!(integrator, tspan_fault[1], true)
 
-    ode_f2 = ODEFunction(rhs2) # update integrator with error
+    ## update integrator with error
+    ode_f2 = ODEFunction(rhs2)
     integrator.f = ode_f2
     u_modified!(integrator, true)
 
     step!(integrator, tspan_fault[2], true)
 
-    integrator.f = ode_f1 # update integrator, clear error
+    ## update integrator, clear error
+    integrator.f = ode_f1
 
     solve!(integrator)
 
@@ -220,6 +224,6 @@ function run_sim_switch_rhs()
 end
 
 
-#run_sim_hack()
-#run_sim_params()
+##run_sim_hack()
+##run_sim_params()
 run_sim_switch_rhs()
