@@ -17,7 +17,7 @@ struct NetworkEq
 end
 
 function (neq::NetworkEq)(dx, x, p ,t)
-    admittance = -1im/0.02 #+ 0.03
+    admittance = -1im/0.02
     Y_matrix = [-admittance admittance;
                 admittance -admittance]
     H_1 =5
@@ -102,7 +102,7 @@ function simulate_hack(rhs1,rhs2, x0, timespan,tspan_fault)
     return integrator.sol
 end
 
-# this also works but is very sloooooow
+## this also works but is very sloooooow
 function simulate_switch_rhs(rhs1, rhs2, x0, timespan,tspan_fault)
 
     ode_f1 = ODEFunction(rhs1)
@@ -140,7 +140,7 @@ end
 
 
 function rhs!(dx, x, params, t)
-    admittance = -1im/0.02 #+ 0.03
+    admittance = -1im/0.02
     Y_matrix = [-admittance admittance;
                 admittance -admittance]
     P_1 =1
