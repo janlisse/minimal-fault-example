@@ -67,13 +67,11 @@ function simulate_with_param(rhs, x0, timespan,tspan_fault)
 
     step!(integrator, tspan_fault[1], true)
 
-    # update integrator with error
-    integrator.p = 0.9
+    integrator.p = 0.9 # update integrator with error
 
     step!(integrator, tspan_fault[2], true)
 
-    # update integrator, clear error
-    integrator.p = 1.0
+    integrator.p = 1.0 # update integrator, clear error
 
     solve!(integrator)
 
@@ -92,9 +90,6 @@ function simulate_hack(rhs1,rhs2, x0, timespan,tspan_fault)
     problem1 = ODEProblem{true}(rhs1, fault_integrator.u, (tspan_fault[2], last(timespan)), 1.0)
     integrator = init(problem1, Rodas4(autodiff=false))
 
-    # Now the trick: copy solution object to new integrator and
-    # make sure the counters are updated, otherwise sol is overwritten in the
-    # next step.
     integrator.sol = fault_integrator.sol
     integrator.saveiter = fault_integrator.saveiter
     integrator.saveiter_dense = fault_integrator.saveiter_dense
@@ -114,15 +109,13 @@ function simulate_switch_rhs(rhs1, rhs2, x0, timespan,tspan_fault)
 
     step!(integrator, tspan_fault[1], true)
 
-    # update integrator with error
-    ode_f2 = ODEFunction(rhs2)
+    ode_f2 = ODEFunction(rhs2) # update integrator with error
     integrator.f = ode_f2
     u_modified!(integrator, true)
 
     step!(integrator, tspan_fault[2], true)
 
-    # update integrator, clear error
-    integrator.f = ode_f1
+    integrator.f = ode_f1 # update integrator, clear error
 
     solve!(integrator)
 
