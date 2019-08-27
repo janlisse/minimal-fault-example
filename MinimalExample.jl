@@ -202,11 +202,11 @@ function run_sim_hack()
     disturbed_node=2
     netw = NetworkEq(1)
     netw_drop = NetworkEq(0.9)
-    sol4 = simulate_hack(netw,netw_drop,
+    sol = simulate_hack(netw,netw_drop,
         operationpoint,
         (0., 1.),
         tspan_fault)
-    plot(sol1, vars=[3,6])
+    plot(sol, vars=[3,6])
 end
 
 function run_sim_switch_rhs()
@@ -223,7 +223,9 @@ function run_sim_switch_rhs()
     plot(sol4, vars=[3,6])
 end
 
-
-##run_sim_hack()
-##run_sim_params()
+#-
+run_sim_hack()
+#-
+run_sim_params()
+#-
 run_sim_switch_rhs()
