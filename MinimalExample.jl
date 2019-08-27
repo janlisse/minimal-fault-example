@@ -195,5 +195,7 @@ plot(sol3, vars=[3,6])
 #-
 using BenchmarkTools
 @benchmark run_sim_hack()
+#-
 @benchmark run_sim_params()
+#-
 @benchmark run_sim_switch_rhs()
