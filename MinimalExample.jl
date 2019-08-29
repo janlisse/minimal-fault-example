@@ -145,7 +145,7 @@ end
 
 
 function run_sim_params()
-    rhs_stable = NetworkEq(P=1)
+    rhs_stable = NetworkEq(P=1.0)
     operationpoint = find_operationpoint(rhs_stable)
     tspan_sim =   (0.,1.)
     tspan_fault = (0.1,1)
@@ -157,7 +157,7 @@ function run_sim_params()
 end
 
 function run_sim_hack()
-    rhs_stable = NetworkEq(P=1)
+    rhs_stable = NetworkEq(P=1.0)
     rhs_fault = NetworkEq(P=0.9)
     operationpoint = find_operationpoint(rhs_stable)
     tspan_sim =   (0.,1.)
@@ -170,7 +170,7 @@ function run_sim_hack()
 end
 
 function run_sim_switch_rhs()
-    rhs_stable = NetworkEq(P=1)
+    rhs_stable = NetworkEq(P=1.0)
     rhs_fault = NetworkEq(P=0.9)
     operationpoint = find_operationpoint(rhs_stable)
     tspan_sim =   (0.,1.)
