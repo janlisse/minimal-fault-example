@@ -1,5 +1,6 @@
 name = "fault-example"
 
+
 [deps]
 BenchmarkTools = "6e4b80f9-dd63-53aa-95a3-0cdb28fa8baf"
 DiffEqBase = "2b5f629d-d688-5b77-993f-72d75c75574e"
@@ -8,6 +9,7 @@ Literate = "98b081ad-f1c9-55d3-8b20-4c87d4299306"
 NLsolve = "2774e3e8-f4cf-5e23-947b-6d7e65073b56"
 OrdinaryDiffEq = "1dea7af3-3e70-54e6-95c3-0bf5283fa5ed"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
+PowerDynamics = "cc46b21f-1b17-51c2-b642-af74c3d3a8be"
 RecipesBase = "3cdcf5f2-1ef4-517c-9805-6587b60abb01"
 
 [compat]
